@@ -31,6 +31,7 @@ public class FlickrFetchr {
 	private static final String EXTRA_SMALL_URL = "url_s";
 
 	private static final String XML_PHOTO = "photo";
+	private static final String XML_PHOTOS = "photos";
 
 	public ArrayList<GalleryItem> downloadGalleryItems(String url) {
 		ArrayList<GalleryItem> items = new ArrayList<GalleryItem>();
@@ -75,6 +76,9 @@ public class FlickrFetchr {
 				item.setCaption(caption);
 				item.setUrl(smallUrl);
 				items.add(item);
+			} else if (eventType == XmlPullParser.START_TAG && XML_PHOTOS.equals(parser.getName())) {
+				String numPhotos = parser.getAttributeValue(null, "total");
+				Log.i(TAG, "Total number of returned photos: " + numPhotos);
 			}
 
 			eventType = parser.next();
